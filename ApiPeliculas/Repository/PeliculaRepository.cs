@@ -1,6 +1,7 @@
 ﻿using ApiPeliculas.Data;
 using ApiPeliculas.Models;
 using ApiPeliculas.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,27 +53,27 @@ namespace ApiPeliculas.Repository
 
         public bool ExistePelicula(int id)
         {
-            throw new NotImplementedException();
+            return _bd.Pelicula.Any(c => c.Id == id);
         }
 
         public Pelicula GetPelicula(int PeliculaId)
         {
-            throw new NotImplementedException();
+            return _bd.Pelicula.FirstOrDefault(c => c.Id == PeliculaId);
         }
 
         public ICollection<Pelicula> GetPeliculas()
         {
-            throw new NotImplementedException();
+            return _bd.Pelicula.OrderBy(c => c.Nombre).ToList();
         }
 
         public ICollection<Pelicula> GetPeliculasEnCategoria(int CatId)
         {
-            throw new NotImplementedException();
+            return _bd.Pelicula.Include(ca => ca.Categoria).Where(ca => ca.categoriaId == CatId).ToList();
         }
 
         public bool Guardar()
         {
-            throw new NotImplementedException();
+            return _bd.SaveChanges() >= 0 ? true : false;
         }
     }
 }

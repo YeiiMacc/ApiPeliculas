@@ -2,112 +2,136 @@
 using ApiPeliculas.Models.Dtos;
 using ApiPeliculas.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiPeliculas.Controllers
 {
-    [Route("api/Categorias")]
+    [Route("api/Peliculas")]
     [ApiController]
     public class PeliculasController : Controller
     {
-        private readonly ICategoriaRepository _ctRepo;
+        private readonly IPeliculaRepository _pelRepo;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IMapper _mapper;
 
-        public PeliculasController(IPeliculaRepository ctRepo, IMapper mapper)
+        public PeliculasController(IPeliculaRepository pelRepo, IMapper mapper, IWebHostEnvironment hostingEnvironment)
         {
-            _ctRepo = ctRepo;
+            _pelRepo = pelRepo;
             _mapper = mapper;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
-        public IActionResult GetCategorias()
+        public IActionResult GetPeliculas()
         {
-            var listaCategorias = _ctRepo.GetCategorias();
-            var listaCategoriasDto = new List<CategoriaDto>();
-            foreach (var lista in listaCategorias)
+            var listaPeliculas = _pelRepo.GetPeliculas();
+            var listaPeliculasDto = new List<PeliculaDto>();
+            foreach (var lista in listaPeliculas)
             {
-                listaCategoriasDto.Add(_mapper.Map<CategoriaDto>(lista));
+                listaPeliculasDto.Add(_mapper.Map<PeliculaDto>(lista));
             }
 
-            return Ok(listaCategoriasDto);
+            return Ok(listaPeliculasDto);
         }
 
-        [HttpGet("{categoriaId:int}", Name = "GetCategoria")]
-        public IActionResult GetCategoria(int CategoriaId)
+        [HttpGet("{peliculaId:int}", Name = "GetPelicula")]
+        public IActionResult GetPelicula(int PeliculaId)
         {
-            var itemCategoria = _ctRepo.GetCategoria(CategoriaId);
+            var itemPelicula = _pelRepo.GetPelicula(PeliculaId);
 
-            if (itemCategoria == null)
+            if (itemPelicula == null)
             {
                 return NotFound();
             }
 
-            var itemCategoriaDto = _mapper.Map<CategoriaDto>(itemCategoria);
-            return Ok(itemCategoriaDto);
+            var itemPeliculaDto = _mapper.Map<PeliculaDto>(itemPelicula);
+            return Ok(itemPeliculaDto);
         }
 
         [HttpPost]
-        public IActionResult CrearCategoria([FromBody] CategoriaDto categoriaDto)
+        public IActionResult CrearPelicula([FromForm] PeliculaCreateDto PeliculaDto)
         {
-            if (categoriaDto == null)
+            if (PeliculaDto == null)
             {
                return BadRequest(ModelState);
             }
 
-            if (_ctRepo.ExisteCategoria(categoriaDto.Nombre))
+            if (_pelRepo.ExistePelicula(PeliculaDto.Nombre))
             {
-                ModelState.AddModelError("", "La categoria ya existe");
+                ModelState.AddModelError("", "La pelicula ya existe");
                 return StatusCode(404, ModelState);
             }
 
-            var categoria = _mapper.Map<Categoria>(categoriaDto);
+            /*Subida de archivos*/
+            var archivo = PeliculaDto.Foto;
+            string rutaPrincipal = _hostingEnvironment.WebRootPath;
+            var archivos = HttpContext.Request.Form.Files;
 
-            if (!_ctRepo.CrearCategoria(categoria))
+            if (archivo.Length > 0)
             {
-                ModelState.AddModelError("", $"Algo salio mal guardando el registro {categoria.Nombre}");
+                // Nueva imagen
+                var nombreFoto = Guid.NewGuid().ToString();
+                var subidas = Path.Combine(rutaPrincipal, @"fotos");
+                var extension = Path.GetExtension(archivos[0].FileName);
+
+                using (var fileStreams = new FileStream(Path.Combine(subidas, nombreFoto + extension), FileMode.Create))
+                {
+                    archivos[0].CopyTo(fileStreams);
+                }
+                PeliculaDto.RutaImagen = @"\fotos\" + nombreFoto + extension;
+            }
+
+
+            var pelicula = _mapper.Map<Pelicula>(PeliculaDto);
+
+            if (!_pelRepo.CrearPelicula(pelicula))
+            {
+                ModelState.AddModelError("", $"Algo salio mal guardando el registro {pelicula.Nombre}");
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute("GetCategoria", new { categoriaId = categoria.Id }, categoria);
+            return CreatedAtRoute("GetPelicula", new { peliculaId = pelicula.Id }, pelicula);
         }
         
-        [HttpPatch("{categoriaId:int}", Name = "ActualizarCategoria")]
-        public IActionResult ActualizarCategoria(int categoriaId, [FromBody] CategoriaDto categoriaDto)
+        [HttpPatch("{peliculaId:int}", Name = "ActualizarPelicula")]
+        public IActionResult ActualizarPelicula(int peliculaId, [FromBody] PeliculaDto peliculaDto)
         {
-            if (categoriaDto == null || categoriaId != categoriaDto.Id)
+            if (peliculaDto == null || peliculaId != peliculaDto.Id)
             {
                 return BadRequest();
             }
 
-            var categoria = _mapper.Map<Categoria>(categoriaDto);
+            var pelicula = _mapper.Map<Pelicula>(peliculaDto);
 
-            if (!_ctRepo.ActualizarCategoria(categoria))
+            if (!_pelRepo.ActualizarPelicula(pelicula))
             {
-                ModelState.AddModelError("", $"Algo salio mal actualizando el registro {categoria.Nombre}");
+                ModelState.AddModelError("", $"Algo salio mal actualizando el registro {pelicula.Nombre}");
                 return StatusCode(500, ModelState);
             }
 
             return NoContent();
         }
 
-        [HttpDelete("{categoriaId:int}", Name = "BorrarCategoria")]
-        public IActionResult BorrarCategoria(int categoriaId)
+        [HttpDelete("{peliculaId:int}", Name = "BorrarPelicula")]
+        public IActionResult BorrarPelicula(int peliculaId)
         {
-            if (!_ctRepo.ExisteCategoria(categoriaId))
+            if (!_pelRepo.ExistePelicula(peliculaId))
             {
                 return NotFound();
             }
 
-            var categoria = _ctRepo.GetCategoria(categoriaId);
+            var pelicula = _pelRepo.GetPelicula(peliculaId);
 
-            if (!_ctRepo.BorrarCategoria(categoria))
+            if (!_pelRepo.BorrarPelicula(pelicula))
             {
-                ModelState.AddModelError("", $"Algo salio mal borrando el registro{categoria.Nombre}");
+                ModelState.AddModelError("", $"Algo salio mal borrando el registro{pelicula.Nombre}");
                 return StatusCode(500, ModelState);
             }
 
