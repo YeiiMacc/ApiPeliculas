@@ -55,6 +55,25 @@ namespace ApiPeliculas.Controllers
             return Ok(itemPeliculaDto);
         }
 
+        [HttpGet("GetPeliculaEnCategoria/{categoriaId:int}")]
+        public IActionResult GetPeliculaEnCategoria(int categoriaId)
+        {
+            var listaPelicula = _pelRepo.GetPeliculasEnCategoria(categoriaId);
+            
+            if (listaPelicula == null)
+            {
+                return NotFound();
+            }
+
+            var itemPelicula = new List<PeliculaDto>();
+            foreach(var item in listaPelicula)
+            {
+                itemPelicula.Add(_mapper.Map<PeliculaDto>(item));
+            }
+
+            return Ok(itemPelicula);
+        }
+
         [HttpPost]
         public IActionResult CrearPelicula([FromForm] PeliculaCreateDto PeliculaDto)
         {
