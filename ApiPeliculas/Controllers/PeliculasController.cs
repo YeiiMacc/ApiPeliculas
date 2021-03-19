@@ -74,6 +74,25 @@ namespace ApiPeliculas.Controllers
             return Ok(itemPelicula);
         }
 
+        [HttpGet("Buscar")]
+        public IActionResult Buscar(string nombre)
+        {
+            try
+            {
+                var resultado = _pelRepo.BuscarPelicula(nombre);
+                if (resultado.Any())
+                {
+                    return Ok(resultado);
+                }
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error recuperando datos de la aplicacion ");
+            }
+        }
+
+
         [HttpPost]
         public IActionResult CrearPelicula([FromForm] PeliculaCreateDto PeliculaDto)
         {
