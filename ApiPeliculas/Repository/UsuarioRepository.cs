@@ -43,12 +43,36 @@ namespace ApiPeliculas.Repository
 
         public Usuario Login(string usuario, string password)
         {
-            throw new NotImplementedException();
+            var user = _bd.Usuario.FirstOrDefault(x => x.UsuarioA == usuario);
+            
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (!VerificaPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                return null;
+            }
+            return user;
         }
 
         public Usuario Registro(Usuario usuario, string password)
         {
             throw new NotImplementedException();
+        }
+
+        private bool VerificaPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            {
+                var hashComputado = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < hashComputado.Length; i++)
+                {
+                    if (hashComputado[i] != passwordHash[i]) return false;
+                }
+            }
+            return true;
         }
     }
 }
