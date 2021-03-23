@@ -59,7 +59,16 @@ namespace ApiPeliculas.Repository
 
         public Usuario Registro(Usuario usuario, string password)
         {
-            throw new NotImplementedException();
+            byte[] passwordHash, passwordSalt;
+
+            CrearPasswordHash(password, out passwordHash, out passwordSalt);
+
+            usuario.PasswordHash = passwordHash;
+            usuario.PasswordSalt = passwordSalt;
+
+            _bd.Usuario.Add(usuario);
+            Guardar();
+            return usuario;
         }
 
         private bool VerificaPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -73,6 +82,15 @@ namespace ApiPeliculas.Repository
                 }
             }
             return true;
+        }
+
+        private void CrearPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }
