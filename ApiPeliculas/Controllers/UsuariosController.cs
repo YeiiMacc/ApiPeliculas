@@ -51,6 +51,26 @@ namespace ApiPeliculas.Controllers
             return Ok(itemUsuarioDto);
         }
 
+        [HttpPost("Registro")]
+        public IActionResult Registro(UsuarioAuthDto usuarioAuthDto)
+        {
+            usuarioAuthDto.Usuario = usuarioAuthDto.Usuario.ToLower();
+
+            if (_userRepo.ExisteUsuario(usuarioAuthDto.Usuario))
+            {
+                return BadRequest("El usuario ya existe");
+            }
+
+            var usuarioACrear = new Usuario
+            {
+                UsuarioA = usuarioAuthDto.Usuario
+            };
+
+            var usuarioCreado = _userRepo.Registro(usuarioACrear, usuarioAuthDto.Password);
+
+            return Ok(usuarioCreado);
+        }
+
         
     }
 }
