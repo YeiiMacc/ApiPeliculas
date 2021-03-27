@@ -34,6 +34,10 @@ namespace ApiPeliculas
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
             services.AddScoped<IPeliculaRepository, PeliculaRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
+            //Agregar dependencia del token
+            services.AddAuthentication(JwtBearerDefaults);
+
             services.AddAutoMapper(typeof(PeliculasMappers));
             services.AddControllers();
         }
