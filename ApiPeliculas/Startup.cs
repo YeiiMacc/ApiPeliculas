@@ -52,6 +52,17 @@ namespace ApiPeliculas
                 });
 
             services.AddAutoMapper(typeof(PeliculasMappers));
+
+
+            // Configuración de la documentación de la API
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("ApiPeliculas", new Microsoft.OpenApi.Models.OpenApiInfo(){ 
+                    Title = "API Peliculas",
+                    Version = "1"
+                });
+            });
+
             services.AddControllers();
         }
 
@@ -64,6 +75,14 @@ namespace ApiPeliculas
             }
 
             app.UseHttpsRedirection();
+
+            // Linea para documentacion api
+            app.UseSwagger();
+            app.UseSwaggerUI(options => 
+            {
+                options.SwaggerEndpoint("/swagger/ApiPeliculas/swagger.json", "API Películas");
+                options.RoutePrefix = "";
+            });
 
             app.UseRouting();
 
