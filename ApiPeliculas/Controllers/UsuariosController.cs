@@ -24,6 +24,12 @@ namespace ApiPeliculas.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="userRepo"></param>
+        /// <param name="mapper"></param>
+        /// <param name="config"></param>
         public UsuariosController(IUsuarioRepository userRepo, IMapper mapper, IConfiguration config)
         {
             _userRepo = userRepo;
@@ -31,6 +37,10 @@ namespace ApiPeliculas.Controllers
             _config = config;
         }
 
+        /// <summary>
+        /// Obtener lista de todos los usuarios
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetUsuarios()
         {
@@ -44,6 +54,11 @@ namespace ApiPeliculas.Controllers
             return Ok(listaUsuariosDto);
         }
 
+        /// <summary>
+        /// Obtener usuario individual
+        /// </summary>
+        /// <param name="UsuarioId"></param>
+        /// <returns></returns>
         [HttpGet("{usuarioId:int}", Name = "GetUsuario")]
         public IActionResult GetUsuario(int UsuarioId)
         {
@@ -58,6 +73,11 @@ namespace ApiPeliculas.Controllers
             return Ok(itemUsuarioDto);
         }
 
+        /// <summary>
+        /// Crear/Registrar nuevo usuario
+        /// </summary>
+        /// <param name="usuarioAuthDto"></param>
+        /// <returns></returns>
         [HttpPost("Registro")]
         public IActionResult Registro(UsuarioAuthDto usuarioAuthDto)
         {
@@ -78,6 +98,11 @@ namespace ApiPeliculas.Controllers
             return Ok(usuarioCreado);
         }
 
+        /// <summary>
+        /// Iniciar sesión para el usuario
+        /// </summary>
+        /// <param name="usuarioAuthLoginDto"></param>
+        /// <returns></returns>
         [HttpPost("Login")]
         public IActionResult Login(UsuarioAuthLoginDto usuarioAuthLoginDto)
         {
@@ -95,7 +120,6 @@ namespace ApiPeliculas.Controllers
             };
 
             // Generación de token
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
             var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

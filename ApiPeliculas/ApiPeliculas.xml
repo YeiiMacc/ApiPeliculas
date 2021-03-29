@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ApiPeliculas</name>
+    </assembly>
+    <members>
+        <member name="M:ApiPeliculas.Controllers.CategoriasController.#ctor(ApiPeliculas.Repository.IRepository.ICategoriaRepository,AutoMapper.IMapper)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="ctRepo">Para hacer uso de ICategoriaRepository</param>
+            <param name="mapper">Para hacer uso de IMapper</param>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.CategoriasController.GetCategorias">
+            <summary>
+            Obtener la lista de todas las categorías
+            </summary>
+            <returns>Retorna la lista </returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.CategoriasController.GetCategoria(System.Int32)">
+            <summary>
+            Obtener categoría individual
+            </summary>
+            <param name="CategoriaId">Este es el Id de la categoría a consultar</param>
+            <returns>Retorna datos de categoría</returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.CategoriasController.CrearCategoria(ApiPeliculas.Models.Dtos.CategoriaDto)">
+            <summary>
+            Crear una nueva categoría
+            </summary>
+            <param name="categoriaDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.CategoriasController.ActualizarCategoria(System.Int32,ApiPeliculas.Models.Dtos.CategoriaDto)">
+            <summary>
+            Actualizar la categoría por Id
+            </summary>
+            <param name="categoriaId">Este es el Id de la categoría a actualizar</param>
+            <param name="categoriaDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.CategoriasController.BorrarCategoria(System.Int32)">
+            <summary>
+            Eliminar la categoría por Id
+            </summary>
+            <param name="categoriaId">Este es el Id de la categoría a borrar</param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.PeliculasController.#ctor(ApiPeliculas.Repository.IRepository.IPeliculaRepository,AutoMapper.IMapper,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="pelRepo"></param>
+            <param name="mapper"></param>
+            <param name="hostingEnvironment"></param>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.PeliculasController.GetPeliculas">
+            <summary>
+            Obtener lista de todas las películas
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.PeliculasController.GetPelicula(System.Int32)">
+            <summary>
+            Obtener película individual
+            </summary>
+            <param name="PeliculaId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.PeliculasController.GetPeliculaEnCategoria(System.Int32)">
+            <summary>
+            Obtener película por categoría 
+            </summary>
+            <param name="categoriaId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.PeliculasController.Buscar(System.String)">
+            <summary>
+            Obtener/Buscar película por el nombre
+            </summary>
+            <param name="nombre"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.PeliculasController.CrearPelicula(ApiPeliculas.Models.Dtos.PeliculaCreateDto)">
+            <summary>
+            Crear una nueva película
+            </summary>
+            <param name="PeliculaDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.PeliculasController.ActualizarPelicula(System.Int32,ApiPeliculas.Models.Dtos.PeliculaDto)">
+            <summary>
+            Actualizar la película por Id
+            </summary>
+            <param name="peliculaId"></param>
+            <param name="peliculaDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.PeliculasController.BorrarPelicula(System.Int32)">
+            <summary>
+            Eliminar película por Id
+            </summary>
+            <param name="peliculaId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.UsuariosController.#ctor(ApiPeliculas.Repository.IRepository.IUsuarioRepository,AutoMapper.IMapper,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="userRepo"></param>
+            <param name="mapper"></param>
+            <param name="config"></param>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.UsuariosController.GetUsuarios">
+            <summary>
+            Obtener lista de todos los usuarios
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.UsuariosController.GetUsuario(System.Int32)">
+            <summary>
+            Obtener usuario individual
+            </summary>
+            <param name="UsuarioId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.UsuariosController.Registro(ApiPeliculas.Models.Dtos.UsuarioAuthDto)">
+            <summary>
+            Crear/Registrar nuevo usuario
+            </summary>
+            <param name="usuarioAuthDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiPeliculas.Controllers.UsuariosController.Login(ApiPeliculas.Models.Dtos.UsuarioAuthLoginDto)">
+            <summary>
+            Iniciar sesión para el usuario
+            </summary>
+            <param name="usuarioAuthLoginDto"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

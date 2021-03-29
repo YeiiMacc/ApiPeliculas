@@ -15,7 +15,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,6 +63,10 @@ namespace ApiPeliculas
                     Title = "API Peliculas",
                     Version = "1"
                 });
+
+                var archivoXmlComentarios = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var rutaApiComentarios = Path.Combine(AppContext.BaseDirectory,archivoXmlComentarios);
+                options.IncludeXmlComments(rutaApiComentarios);
             });
 
             services.AddControllers();

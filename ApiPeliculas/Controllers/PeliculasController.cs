@@ -21,6 +21,12 @@ namespace ApiPeliculas.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="pelRepo"></param>
+        /// <param name="mapper"></param>
+        /// <param name="hostingEnvironment"></param>
         public PeliculasController(IPeliculaRepository pelRepo, IMapper mapper, IWebHostEnvironment hostingEnvironment)
         {
             _pelRepo = pelRepo;
@@ -28,6 +34,10 @@ namespace ApiPeliculas.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+        /// <summary>
+        /// Obtener lista de todas las películas
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetPeliculas()
         {
@@ -41,6 +51,11 @@ namespace ApiPeliculas.Controllers
             return Ok(listaPeliculasDto);
         }
 
+        /// <summary>
+        /// Obtener película individual
+        /// </summary>
+        /// <param name="PeliculaId"></param>
+        /// <returns></returns>
         [HttpGet("{peliculaId:int}", Name = "GetPelicula")]
         public IActionResult GetPelicula(int PeliculaId)
         {
@@ -55,6 +70,11 @@ namespace ApiPeliculas.Controllers
             return Ok(itemPeliculaDto);
         }
 
+        /// <summary>
+        /// Obtener película por categoría 
+        /// </summary>
+        /// <param name="categoriaId"></param>
+        /// <returns></returns>
         [HttpGet("GetPeliculaEnCategoria/{categoriaId:int}")]
         public IActionResult GetPeliculaEnCategoria(int categoriaId)
         {
@@ -74,6 +94,11 @@ namespace ApiPeliculas.Controllers
             return Ok(itemPelicula);
         }
 
+        /// <summary>
+        /// Obtener/Buscar película por el nombre
+        /// </summary>
+        /// <param name="nombre"></param>
+        /// <returns></returns>
         [HttpGet("Buscar")]
         public IActionResult Buscar(string nombre)
         {
@@ -92,7 +117,11 @@ namespace ApiPeliculas.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Crear una nueva película
+        /// </summary>
+        /// <param name="PeliculaDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult CrearPelicula([FromForm] PeliculaCreateDto PeliculaDto)
         {
@@ -138,6 +167,12 @@ namespace ApiPeliculas.Controllers
             return CreatedAtRoute("GetPelicula", new { peliculaId = pelicula.Id }, pelicula);
         }
         
+        /// <summary>
+        /// Actualizar la película por Id
+        /// </summary>
+        /// <param name="peliculaId"></param>
+        /// <param name="peliculaDto"></param>
+        /// <returns></returns>
         [HttpPatch("{peliculaId:int}", Name = "ActualizarPelicula")]
         public IActionResult ActualizarPelicula(int peliculaId, [FromBody] PeliculaDto peliculaDto)
         {
@@ -157,6 +192,11 @@ namespace ApiPeliculas.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Eliminar película por Id
+        /// </summary>
+        /// <param name="peliculaId"></param>
+        /// <returns></returns>
         [HttpDelete("{peliculaId:int}", Name = "BorrarPelicula")]
         public IActionResult BorrarPelicula(int peliculaId)
         {

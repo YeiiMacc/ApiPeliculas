@@ -18,12 +18,21 @@ namespace ApiPeliculas.Controllers
         private readonly ICategoriaRepository _ctRepo;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ctRepo">Para hacer uso de ICategoriaRepository</param>
+        /// <param name="mapper">Para hacer uso de IMapper</param>
         public CategoriasController(ICategoriaRepository ctRepo, IMapper mapper)
         {
             _ctRepo = ctRepo;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Obtener la lista de todas las categorías
+        /// </summary>
+        /// <returns>Retorna la lista </returns>
         [HttpGet]
         public IActionResult GetCategorias()
         {
@@ -37,6 +46,11 @@ namespace ApiPeliculas.Controllers
             return Ok(listaCategoriasDto);
         }
 
+        /// <summary>
+        /// Obtener categoría individual
+        /// </summary>
+        /// <param name="CategoriaId">Este es el Id de la categoría a consultar</param>
+        /// <returns>Retorna datos de categoría</returns>
         [HttpGet("{categoriaId:int}", Name = "GetCategoria")]
         public IActionResult GetCategoria(int CategoriaId)
         {
@@ -51,6 +65,11 @@ namespace ApiPeliculas.Controllers
             return Ok(itemCategoriaDto);
         }
 
+        /// <summary>
+        /// Crear una nueva categoría
+        /// </summary>
+        /// <param name="categoriaDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult CrearCategoria([FromBody] CategoriaDto categoriaDto)
         {
@@ -75,7 +94,13 @@ namespace ApiPeliculas.Controllers
 
             return CreatedAtRoute("GetCategoria", new { categoriaId = categoria.Id }, categoria);
         }
-        
+
+        /// <summary>
+        /// Actualizar la categoría por Id
+        /// </summary>
+        /// <param name="categoriaId">Este es el Id de la categoría a actualizar</param>
+        /// <param name="categoriaDto"></param>
+        /// <returns></returns>
         [HttpPatch("{categoriaId:int}", Name = "ActualizarCategoria")]
         public IActionResult ActualizarCategoria(int categoriaId, [FromBody] CategoriaDto categoriaDto)
         {
@@ -95,6 +120,11 @@ namespace ApiPeliculas.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Eliminar la categoría por Id
+        /// </summary>
+        /// <param name="categoriaId">Este es el Id de la categoría a borrar</param>
+        /// <returns></returns>
         [HttpDelete("{categoriaId:int}", Name = "BorrarCategoria")]
         public IActionResult BorrarCategoria(int categoriaId)
         {
