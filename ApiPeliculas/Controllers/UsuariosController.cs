@@ -18,6 +18,7 @@ namespace ApiPeliculas.Controllers
 {
     [Route("api/Usuarios")]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class UsuariosController : Controller
     {
         private readonly IUsuarioRepository _userRepo;
@@ -42,6 +43,8 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<UsuarioDto>))]
+        [ProducesResponseType(400)]
         public IActionResult GetUsuarios()
         {
             var listaUsuarios = _userRepo.GetUsuarios();
@@ -60,6 +63,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="UsuarioId"></param>
         /// <returns></returns>
         [HttpGet("{usuarioId:int}", Name = "GetUsuario")]
+        [ProducesResponseType(200, Type = typeof(UsuarioDto))]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
         public IActionResult GetUsuario(int UsuarioId)
         {
             var itemUsuario = _userRepo.GetUsuario(UsuarioId);
@@ -79,6 +85,11 @@ namespace ApiPeliculas.Controllers
         /// <param name="usuarioAuthDto"></param>
         /// <returns></returns>
         [HttpPost("Registro")]
+        [ProducesResponseType(201, Type = typeof(UsuarioAuthDto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesDefaultResponseType]
         public IActionResult Registro(UsuarioAuthDto usuarioAuthDto)
         {
             usuarioAuthDto.Usuario = usuarioAuthDto.Usuario.ToLower();
@@ -104,6 +115,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="usuarioAuthLoginDto"></param>
         /// <returns></returns>
         [HttpPost("Login")]
+        [ProducesResponseType(200, Type = typeof(UsuarioAuthLoginDto))]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
         public IActionResult Login(UsuarioAuthLoginDto usuarioAuthLoginDto)
         {
             var usuarioDesdeRepo = _userRepo.Login(usuarioAuthLoginDto.Usuario, usuarioAuthLoginDto.Password);

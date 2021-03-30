@@ -13,6 +13,7 @@ namespace ApiPeliculas.Controllers
 {
     [Route("api/Categorias")]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class CategoriasController : Controller
     {
         private readonly ICategoriaRepository _ctRepo;
@@ -34,6 +35,8 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <returns>Retorna la lista </returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<CategoriaDto>))]
+        [ProducesResponseType(400)]
         public IActionResult GetCategorias()
         {
             var listaCategorias = _ctRepo.GetCategorias();
@@ -52,6 +55,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="CategoriaId">Este es el Id de la categoría a consultar</param>
         /// <returns>Retorna datos de categoría</returns>
         [HttpGet("{categoriaId:int}", Name = "GetCategoria")]
+        [ProducesResponseType(200, Type = typeof(CategoriaDto))]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
         public IActionResult GetCategoria(int CategoriaId)
         {
             var itemCategoria = _ctRepo.GetCategoria(CategoriaId);
@@ -71,6 +77,11 @@ namespace ApiPeliculas.Controllers
         /// <param name="categoriaDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(CategoriaDto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesDefaultResponseType]
         public IActionResult CrearCategoria([FromBody] CategoriaDto categoriaDto)
         {
             if (categoriaDto == null)
@@ -102,6 +113,9 @@ namespace ApiPeliculas.Controllers
         /// <param name="categoriaDto"></param>
         /// <returns></returns>
         [HttpPatch("{categoriaId:int}", Name = "ActualizarCategoria")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult ActualizarCategoria(int categoriaId, [FromBody] CategoriaDto categoriaDto)
         {
             if (categoriaDto == null || categoriaId != categoriaDto.Id)
@@ -126,6 +140,10 @@ namespace ApiPeliculas.Controllers
         /// <param name="categoriaId">Este es el Id de la categoría a borrar</param>
         /// <returns></returns>
         [HttpDelete("{categoriaId:int}", Name = "BorrarCategoria")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult BorrarCategoria(int categoriaId)
         {
             if (!_ctRepo.ExisteCategoria(categoriaId))
