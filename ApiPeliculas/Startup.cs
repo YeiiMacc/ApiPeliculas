@@ -61,7 +61,19 @@ namespace ApiPeliculas
             {
                 options.SwaggerDoc("ApiPeliculas", new Microsoft.OpenApi.Models.OpenApiInfo(){ 
                     Title = "API Peliculas",
-                    Version = "1"
+                    Version = "1",
+                    Description = "Backend peliculas",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                    {
+                        Email = "yeiimacc22@gmail.com",
+                        Name = "Yeii Macc",
+                        Url = new Uri("https://yeiimacc.com")
+                    },
+                    License = new Microsoft.OpenApi.Models.OpenApiLicense()
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
+                    }
                 });
 
                 var archivoXmlComentarios = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
