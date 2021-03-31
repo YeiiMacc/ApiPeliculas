@@ -2,6 +2,7 @@
 using ApiPeliculas.Models.Dtos;
 using ApiPeliculas.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace ApiPeliculas.Controllers
 {
+    [Authorize]
     [Route("api/Usuarios")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiPeliculasUsuarios")]
@@ -85,6 +87,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="usuarioAuthDto"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("Registro")]
         [ProducesResponseType(201, Type = typeof(UsuarioAuthDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -115,6 +118,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="usuarioAuthLoginDto"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("Login")]
         [ProducesResponseType(200, Type = typeof(UsuarioAuthLoginDto))]
         [ProducesResponseType(404)]

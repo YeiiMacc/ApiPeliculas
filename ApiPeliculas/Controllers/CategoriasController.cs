@@ -2,6 +2,7 @@
 using ApiPeliculas.Models.Dtos;
 using ApiPeliculas.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ApiPeliculas.Controllers
 {
+    [Authorize]
     [Route("api/Categorias")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiPeliculasCategorias")]
@@ -35,6 +37,7 @@ namespace ApiPeliculas.Controllers
         /// Obtener la lista de todas las categorías
         /// </summary>
         /// <returns>Retorna la lista </returns>
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(List<CategoriaDto>))]
         [ProducesResponseType(400)]
@@ -55,6 +58,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="CategoriaId">Este es el Id de la categoría a consultar</param>
         /// <returns>Retorna datos de categoría</returns>
+        [AllowAnonymous]
         [HttpGet("{categoriaId:int}", Name = "GetCategoria")]
         [ProducesResponseType(200, Type = typeof(CategoriaDto))]
         [ProducesResponseType(404)]

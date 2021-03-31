@@ -118,6 +118,9 @@ namespace ApiPeliculas
             });
 
             services.AddControllers();
+
+            // Soporte para CORS
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -142,12 +145,17 @@ namespace ApiPeliculas
 
             app.UseRouting();
 
+            // Autenticacion y autorizacion - 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            // Soporte para CORS
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         }
     }
 }

@@ -2,6 +2,7 @@
 using ApiPeliculas.Models.Dtos;
 using ApiPeliculas.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace ApiPeliculas.Controllers
 {
+    [Authorize]
     [Route("api/Peliculas")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ApiPeliculas")]
@@ -40,6 +42,7 @@ namespace ApiPeliculas.Controllers
         /// Obtener lista de todas las películas
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(List<PeliculaDto>))]
         [ProducesResponseType(400)]
@@ -60,6 +63,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="PeliculaId"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("{peliculaId:int}", Name = "GetPelicula")]
         [ProducesResponseType(200, Type = typeof(PeliculaDto))]
         [ProducesResponseType(404)]
@@ -82,6 +86,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="categoriaId"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("GetPeliculaEnCategoria/{categoriaId:int}")]
         [ProducesResponseType(200, Type = typeof(PeliculaDto))]
         [ProducesResponseType(404)]
@@ -109,6 +114,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="nombre"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("Buscar")]
         [ProducesResponseType(200, Type = typeof(PeliculaDto))]
         [ProducesResponseType(404)]
