@@ -18,6 +18,7 @@ namespace ApiPeliculas.Controllers
 {
     [Route("api/Usuarios")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "ApiPeliculasUsuarios")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class UsuariosController : Controller
     {
