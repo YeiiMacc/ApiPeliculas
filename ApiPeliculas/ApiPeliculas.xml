@@ -64,7 +64,7 @@
             <summary>
             Obtener película individual
             </summary>
-            <param name="PeliculaId"></param>
+            <param name="peliculaId"></param>
             <returns></returns>
         </member>
         <member name="M:ApiPeliculas.Controllers.PeliculasController.GetPeliculaEnCategoria(System.Int32)">

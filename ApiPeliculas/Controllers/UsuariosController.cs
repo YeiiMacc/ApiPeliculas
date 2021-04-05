@@ -65,7 +65,7 @@ namespace ApiPeliculas.Controllers
         /// </summary>
         /// <param name="UsuarioId"></param>
         /// <returns></returns>
-        [HttpGet("{usuarioId:int}", Name = "GetUsuario")]
+        [HttpGet("GetUsuario/{UsuarioId:int}")]
         [ProducesResponseType(200, Type = typeof(UsuarioDto))]
         [ProducesResponseType(404)]
         [ProducesDefaultResponseType]

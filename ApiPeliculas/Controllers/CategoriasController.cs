@@ -59,7 +59,7 @@ namespace ApiPeliculas.Controllers
         /// <param name="CategoriaId">Este es el Id de la categoría a consultar</param>
         /// <returns>Retorna datos de categoría</returns>
         [AllowAnonymous]
-        [HttpGet("{categoriaId:int}", Name = "GetCategoria")]
+        [HttpGet("GetCategoria/{CategoriaId:int}")]
         [ProducesResponseType(200, Type = typeof(CategoriaDto))]
         [ProducesResponseType(404)]
         [ProducesDefaultResponseType]

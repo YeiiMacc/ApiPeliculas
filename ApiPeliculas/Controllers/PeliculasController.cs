@@ -61,16 +61,16 @@ namespace ApiPeliculas.Controllers
         /// <summary>
         /// Obtener película individual
         /// </summary>
-        /// <param name="PeliculaId"></param>
+        /// <param name="peliculaId"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("{peliculaId:int}", Name = "GetPelicula")]
+        [HttpGet("GetPelicula/{peliculaId:int}")]
         [ProducesResponseType(200, Type = typeof(PeliculaDto))]
         [ProducesResponseType(404)]
         [ProducesDefaultResponseType]
-        public IActionResult GetPelicula(int PeliculaId)
+        public IActionResult GetPelicula(int peliculaId)
         {
-            var itemPelicula = _pelRepo.GetPelicula(PeliculaId);
+            var itemPelicula = _pelRepo.GetPelicula(peliculaId);
 
             if (itemPelicula == null)
             {
