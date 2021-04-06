@@ -125,6 +125,9 @@ namespace ApiPeliculas.Controllers
         [ProducesDefaultResponseType]
         public IActionResult Login(UsuarioAuthLoginDto usuarioAuthLoginDto)
         {
+
+            // throw new Exception("Error generado test");
+
             var usuarioDesdeRepo = _userRepo.Login(usuarioAuthLoginDto.Usuario, usuarioAuthLoginDto.Password);
 
             if (usuarioDesdeRepo == null)
@@ -134,9 +137,9 @@ namespace ApiPeliculas.Controllers
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier,usuarioDesdeRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, usuarioDesdeRepo.UsuarioA.ToLower())
-            };
+                    new Claim(ClaimTypes.NameIdentifier,usuarioDesdeRepo.Id.ToString()),
+                    new Claim(ClaimTypes.Name, usuarioDesdeRepo.UsuarioA.ToLower())
+                };
 
             // Generación de token
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
@@ -151,9 +154,13 @@ namespace ApiPeliculas.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new { 
+            return Ok(new
+            {
                 token = tokenHandler.WriteToken(token)
             });
+
+
+
         }
     }
 }
